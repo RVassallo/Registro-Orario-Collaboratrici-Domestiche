@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Orario Collaboratrici Domestiche</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-buttons button {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        .delete-button {
+            background-color: #e74c3c;
+        }
+        
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+        
+        .edit-button {
+            background-color: #f39c12;
+        }
+        
+        .edit-button:hover {
+            background-color: #d35400;
+        }
+        
+        .report-container {
+            margin-top: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #ddd;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .summary {
+            background-color: #eaf2f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Registro Orario Collaboratrici Domestiche</h1>
+    
+    <div class="tabs no-print">
+        <div class="tab active" data-tab="registro">Registro</div>
+        <div class="tab" data-tab="report">Report Settimanale</div>
+    </div>
+    
+    <div class="tab-content active" id="registro">
+        <div class="container no-print">
+            <h2>Inserisci Dati</h2>
+            <form id="timesheet-form">
+                <div class="form-group">
+                    <label for="collaboratrice">Nome Collaboratrice:</label>
+                    <input type="text" id="collaboratrice" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="giorno">Giorno della Settimana:</label>
+                    <select id="giorno" required>
+                        <option value="Lunedì">Lunedì</option>
+                        <option value="Martedì">Martedì</option>
+                        <option value="Mercoledì">Mercoledì</option>
+                        <option value="Giovedì">Giovedì</option>
+                        <option value="Venerdì">Venerdì</option>
+                        <option value="Sabato">Sabato</option>
+                        <option value="Domenica">Domenica</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="data">Data:</label>
+                    <input type="date" id="data" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="turno">Turno:</label>
+                    <select id="turno" required>
+                        <option value="Mattina">Mattina</option>
+                        <option value="Pomeriggio">Pomeriggio</option>
+                        <option value="Giornata completa">Giornata completa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ora-inizio">Ora di Inizio:</label>
+                    <input type="time" id="ora-inizio" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ora-fine">Ora di Fine:</label>
+                    <input type="time" id="ora-fine" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="note">Note Aggiuntive:</label>
+                    <textarea id="note" rows="3"></textarea>
+                </div>
+                
+                <button type="submit" id="salva-button">Salva</button>
+                <button type="button" id="reset-button">Annulla</button>
+            </form>
+        </div>
+        
+        <div class="container">
+            <h2>Registro Orario</h2>
+            <div class="no-print">
+                <button id="elimina-tutti">Elimina Tutti</button>
+                <button id="esporta-csv">Esporta CSV</button>
+                <button id="stampa-registro">Stampa Registro</button>
+            </div>
+            <table id="timesheet-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Giorno</th>
+                        <th>Data</th>
+                        <th>Turno</th>
+                        <th>Ora Inizio</th>
+                        <th>Ora Fine</th>
+                        <th>Ore Lavorate</th>
+                        <th>Note</th>
+                        <th class="no-print">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody id="timesheet-body">
+                    <!-- Dati verranno inseriti qui -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="tab-content" id="report">
+        <div class="container">
+            <h2>Report Settimanale</h2>
+            <div class="no-print">
+                <div class="form-group">
+                    <label for="settimana">Seleziona Settimana:</label>
+                    <input type="week" id="settimana" required>
+                    <button id="genera-report">Genera Report</button>
+                    <button id="stampa-report">Stampa Report</button>
+                </div>
+            </div>
+            
+            <div id="report-container" class="report-container">
+                <!-- Il report verrà generato qui -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Funzioni di utilità
+        function calcolaOre(inizio, fine) {
+            const [oraInizio, minInizio] = inizio.split(':').map(Number);
+            const [oraFine, minFine] = fine.split(':').map(Number);
+            
+            let oreDecimali = oraFine - oraInizio;
+            let minutiDecimali = (minFine - minInizio) / 60;
+            
+            if (minutiDecimali < 0) {
+                oreDecimali--;
+                minutiDecimali += 1;
+            }
+            
+            return oreDecimali + minutiDecimali;
+        }
+        
+        function formatOreDecimali(ore) {
+            return ore.toFixed(2);
+        }
+        
+        function getWeekNumber(d) {
+            d = new Date(d);
+            // Imposta a lunedì della settimana corrente
+            d.setDate(d.getDate() - d.getDay() + (d.getDay() === 0 ? -6 : 1));
+            // Ottiene il primo giorno dell'anno
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            // Calcola il numero della settimana
+            return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+        }
+        
+        function formattaData(data) {
+            return new Date(data).toLocaleDateString('it-IT');
+        }
+        
+        function getISOWeekStartDate(year, week) {
+            const date = new Date(year, 0, 1 + (week - 1) * 7);
+            date.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1));
+            return date;
+        }
+        
+        // Carica i dati salvati
+        let timesheetData = JSON.parse(localStorage.getItem('timesheetData')) || [];
+        
+        // Inizializza l'app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inizializza la data di oggi
+            document.getElementById('data').valueAsDate = new Date();
+            
+            // Carica i dati esistenti
+            renderTimesheetTable();
+            
+            // Aggiungi event listener ai tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Rimuovi active da tutti i tab
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    // Aggiungi active al tab cliccato
+                    tab.classList.add('active');
+                    
+                    // Nascondi tutti i contenuti
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Mostra il contenuto selezionato
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Gestisci il form di inserimento
+            document.getElementById('timesheet-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const collaboratrice = document.getElementById('collaboratrice').value;
+                const giorno = document.getElementById('giorno').value;
+                const data = document.getElementById('data').value;
+                const turno = document.getElementById('turno').value;
+                const oraInizio = document.getElementById('ora-inizio').value;
+                const oraFine = document.getElementById('ora-fine').value;
+                const note = document.getElementById('note').value;
+                
+                // Calcola le ore lavorate
+                const oreLavorate = calcolaOre(oraInizio, oraFine);
+                
+                const editingIndex = document.getElementById('timesheet-form').getAttribute('data-editing');
+                
+                if (editingIndex !== null && editingIndex !== undefined && editingIndex !== "") {
+                    // Modifica un record esistente
+                    timesheetData[editingIndex] = {
+                        collaboratrice,
+                        giorno,
+                        data,
+                        turno,
+                        oraInizio,
+                        oraFine,
+                        oreLavorate,
+                        note
+                    };
+                    
+                    // Reset dell'attributo di editing
+                    document.getElementById('timesheet-form').removeAttribute('data-editing');
+                    document.getElementById('salva-button').textContent = 'Salva';
+                } else {
+                    // Aggiungi un nuovo record
+                    timesheetData.push({
+                        collaboratrice,
+                        giorno,
+                        data,
+                        turno,
+                        oraInizio,
+                        oraFine,
+                        oreLavorate,
+                        note
+                    });
+                }
+                
+                // Salva i dati
+                localStorage.setItem('timesheetData', JSON.stringify(timesheetData));
+                
+                // Aggiorna la tabella
+                renderTimesheetTable();
+                
+                // Reset del form
+                document.getElementById('timesheet-form').reset();
+                document.getElementById('data').valueAsDate = new Date();
+            });
+            
+            // Gestisci il pulsante di reset
+            document.getElementById('reset-button').addEventListener('click', function() {
+                document.getElementById('timesheet-form').reset();
+                document.getElementById('data').valueAsDate = new Date();
+                document.getElementById('timesheet-form').removeAttribute('data-editing');
+                document.getElementById('salva-button').textContent = 'Salva';
+            });
+            
+            // Gestisci il pulsante elimina tutti
+            document.getElementById('elimina-tutti').addEventListener('click', function() {
+                if (confirm('Sei sicuro di voler eliminare tutti i record?')) {
+                    timesheetData = [];
+                    localStorage.setItem('timesheetData', JSON.stringify(timesheetData));
+                    renderTimesheetTable();
+                }
+            });
+            
+            // Gestisci il pulsante esporta CSV
+            document.getElementById('esporta-csv').addEventListener('click', function() {
+                esportaCSV();
+            });
+            
+            // Gestisci il pulsante stampa registro
+            document.getElementById('stampa-registro').addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Gestisci il pulsante stampa report
+            document.getElementById('stampa-report').addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Gestisci il pulsante genera report
+            document.getElementById('genera-report').addEventListener('click', function() {
+                const settimanaInput = document.getElementById('settimana').value;
+                if (settimanaInput) {
+                    const [anno, settimana] = settim
